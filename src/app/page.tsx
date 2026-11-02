@@ -16,7 +16,7 @@ import "@/components/landing/landing.css";
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-landing", display: "swap" });
 
 export const metadata: Metadata = {
-  title: { absolute: "Fitcheck — see yourself in the clothes you already own" },
+  title: { absolute: "Style Up! —  Unlock your closet's potential and see yourself in the clothes you already own" },
   description:
     "Rediscover your wardrobe with a personal AI stylist. Choose the pieces to import, create fresh outfits, and preview the look on you. Start with free credits.",
 };

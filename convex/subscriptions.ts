@@ -40,13 +40,80 @@ export const refreshForJob = internalAction({
   },
 });
 
+function clerkErrorCodes(error: unknown): string[] {
+  if (typeof error !== "object" || error === null || !("errors" in error) || !Array.isArray(error.errors)) {
+    return [];
+  }
+  return error.errors.flatMap((item) => {
+    if (typeof item !== "object" || item === null || !("code" in item) || typeof item.code !== "string") return [];
+    return [item.code];
+  });
+}
+
+function clerkErrorStatus(error: unknown): number | undefined {
+  if (typeof error !== "object" || error === null || !("status" in error) || typeof error.status !== "number") {
+    return undefined;
+  }
+  return error.status;
+}
+
+function clerkErrorText(error: unknown): string {
+  if (error instanceof Error) return error.message;
+  return String(error);
+}
+
+async function clerkSecretCanReadUser(
+  clerk: ReturnType<typeof createClerkClient>,
+  clerkUserId: string,
+): Promise<boolean> {
+  try {
+    await clerk.users.getUser(clerkUserId);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** No paid plan, no payer yet, or Billing not enabled — all map to the free tier. */
+function isAbsentClerkSubscription(error: unknown): boolean {
+  const status = clerkErrorStatus(error);
+  const codes = clerkErrorCodes(error);
+  const text = clerkErrorText(error).toLowerCase();
+  return (
+    status === 404 ||
+    codes.includes("resource_not_found") ||
+    codes.includes("not_found") ||
+    codes.includes("subscription_not_found") ||
+    codes.includes("feature_not_enabled") ||
+    (text.includes("billing") && (text.includes("not enabled") || text.includes("disabled")))
+  );
+}
+
 async function refreshUserSubscription(ctx: ActionCtx, clerkUserId: string): Promise<void> {
   const readStartedAt = Date.now();
   const clerk = createClerkClient({ secretKey: requireEnv("CLERK_SECRET_KEY") });
   let subscription;
   try {
     subscription = await clerk.billing.getUserBillingSubscription(clerkUserId);
-  } catch {
+  } catch (error) {
+    if (isAbsentClerkSubscription(error) || (await clerkSecretCanReadUser(clerk, clerkUserId))) {
+      console.warn("Clerk billing returned no paid subscription; treating as free.", clerkErrorText(error));
+      await ctx.runMutation(internal.credits.reconcileSubscription, {
+        clerkUserId,
+        readStartedAt,
+        plan: "free",
+        features: [],
+      });
+      return;
+    }
+    const status = clerkErrorStatus(error);
+    if (status === 401 || status === 403) {
+      throw appError(
+        "UPSTREAM_FAILED",
+        "Convex CLERK_SECRET_KEY does not match this Clerk app. Set the same secret on the Convex deployment.",
+      );
+    }
+    console.error("Clerk billing.getUserBillingSubscription failed", error);
     throw appError("UPSTREAM_FAILED", "Clerk could not confirm your subscription. Please try again.");
   }
   const now = Date.now();

@@ -1,4 +1,4 @@
-# Fitcheck — AI Wardrobe & Virtual Try-On with Next.js, Clerk, Convex & Vercel Eve
+# StyleUp— AI Wardrobe & Virtual Try-On with Next.js, Clerk, Convex & Vercel Eve
 
 [![Next.js 16](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
 [![Clerk](https://img.shields.io/badge/Clerk-Auth%20%2B%20Billing-6c47ff?logo=clerk)](https://go.clerk.com/sonny)
@@ -13,9 +13,7 @@
 
 Fitcheck brings together **image understanding, garment extraction, virtual try-ons, a contextual AI agent, realtime background jobs, authentication, subscriptions and a credit ledger** in one full-stack application.
 
-[**Open the demo →**](https://fitcheck-eight-black.vercel.app) · [**Get started with Clerk →**](https://go.clerk.com/sonny) · [**Join the free AI Community →**](https://www.papareact.com/ztoh-form)
-
-![Fitcheck landing page](docs/assets/landing-desktop.jpg)
+[**Open the demo →**] · [**Get started with Clerk  
 
 > **Who is this for?** Developers who want to build an AI product that does more than return a chat message. Follow an uploaded photo through detection, user confirmation, credit reservation, image generation, storage and a live interface. Then connect an agent to those same authenticated operations.
 
@@ -27,13 +25,13 @@ Fitcheck brings together **image understanding, garment extraction, virtual try-
 
 ## 👇🏼 DO THIS Before You Get Started
 
-1️⃣ Sign up to Clerk 👉 **[https://go.clerk.com/sonny](https://go.clerk.com/sonny)**
+1️⃣ Sign up to Clerk 👉 **[https://go.clerk.com](https://go.clerk.com)**
 
 2️⃣ Create your Convex account 👉 **[https://www.convex.dev/](https://www.convex.dev/)**
 
-3️⃣ Join my AI Community for FREE 👉 **[https://www.papareact.com/ztoh-form](https://www.papareact.com/ztoh-form)**
 
-| Service               | Its job in Fitcheck                                              | Needed for                                               |
+
+| Service               | Its job in StyleUp                                             | Needed for                                               |
 | --------------------- | ---------------------------------------------------------------- | -------------------------------------------------------- |
 | **Clerk**             | Sign-in, sessions and user subscription plans                    | Authentication; enable Billing for plan synchronization  |
 | **Convex**            | Database, file storage, reactive queries and durable workflows   | Wardrobe, outfits, credits and background jobs           |
@@ -41,7 +39,7 @@ Fitcheck brings together **image understanding, garment extraction, virtual try-
 | **OpenAI**            | Optional direct access for detection, image edits and embeddings | Use instead of Gateway for Convex AI actions             |
 | **Vercel**            | Hosts Next.js and the Eve service                                | Deployment                                               |
 
-The Clerk link above is Sonny’s campaign link. Set up your own service accounts and credentials when running your copy.
+
 
 ## 🧭 Inside This README
 
@@ -832,4 +830,3 @@ Use photos you own or have permission to process. Personal photos, garment refer
 
 Keep environment files, service credentials and private QA material out of published repositories. The README screenshots have their own [capture notes](docs/assets/README.md).
 
-Built by [Sonny Sangha](https://github.com/sonnysangha). **[Get started with Clerk →](https://go.clerk.com/sonny)** · **[Join the free AI Community →](https://www.papareact.com/ztoh-form)**
