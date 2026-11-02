@@ -7,7 +7,7 @@ const geistSans = Geist({ variable: "--font-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: { default: "Fitcheck", template: "%s · Fitcheck" },
+  title: { default: "Style Up!", template: "%s · Style Up!" },
   description: "Photograph your clothes, build outfits, ask a stylist what to wear, and see yourself wearing it.",
 };
 
